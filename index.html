@@ -7,6 +7,42 @@
   <title>Document</title>
 </head>
 <body>
-
+  <div id="app">
+    <div v-bind:class='{wrapper: imageWrapper}'>
+      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
+    </div>
+    <div v-bind:class='{wrapper: imageWrapper}'>
+      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
+    </div>
+    <div v-bind:class='{wrapper: imageWrapper}'>
+      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
+    </div>
+  </div>
 </body>
+
+<script>
+   new Vue({
+    el:"#app",
+    data: function () {
+      return {
+        src: 'https://images.pexels.com/photos/62600/pexels-photo-62600.jpeg?cs=srgb&dl=pexels-chris-janda-62600.jpg&fm=jpg',
+        alt: 'Arches National Park',
+        imageWrapper: 'wrapper',
+        image: 'img'
+      }
+    }
+  })
+
+</script>
+
+<style>
+  .wrapper {
+    float: left;
+    width: 33%;
+  }
+
+  .img {
+     height: 500px;
+  }
+</style>
 </html>
