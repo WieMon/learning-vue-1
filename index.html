@@ -8,33 +8,53 @@
 </head>
 <body>
   <div id="app">
-    <div v-bind:class='{wrapper: imageWrapper}'>
-      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
-    </div>
-    <div v-bind:class='{wrapper: imageWrapper}'>
-      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
-    </div>
-    <div v-bind:class='{wrapper: imageWrapper}'>
-      <img v-bind:class='{img:image}' v-bind:src='src' v-bind:alt='alt' />
+    <div class='wrapper' v-for='(park, index) in parks'>
+      <img class='img' v-bind:src='park.src' v-bind:alt='park.alt'></img>
+      <ol>
+        <li v-for='(item, index) in park.items'>{{item.text}}</li>
+      </ol>
     </div>
   </div>
 </body>
-
 <script>
    new Vue({
     el:"#app",
-    data: function () {
+    data() {
       return {
-        src: 'https://images.pexels.com/photos/62600/pexels-photo-62600.jpeg?cs=srgb&dl=pexels-chris-janda-62600.jpg&fm=jpg',
-        alt: 'Arches National Park',
-        imageWrapper: 'wrapper',
-        image: 'img'
+        parks: [
+          {
+          src: 'https://images.pexels.com/photos/62600/pexels-photo-62600.jpeg?cs=srgb&dl=pexels-chris-janda-62600.jpg&fm=jpg',
+          alt: 'Arches National Park',
+          items: [
+            {text: 'one'},
+            {text: 'two'},
+            {text: 'three'}
+          ]
+          },
+          {
+          src: 'https://images.pexels.com/photos/2416600/pexels-photo-2416600.jpeg?cs=srgb&dl=pexels-lukas-kloeppel-2416600.jpg&fm=jpg',
+          alt: 'Yellowstone National Park',
+          items: [
+            {text: 'four'},
+            {text: 'five'},
+            {text: 'six'}
+          ]
+          },
+          {
+          src: 'https://images.pexels.com/photos/415925/pexels-photo-415925.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+          alt: 'Bryce Cannion National Park',
+          items: [
+            {text: 'seven'},
+            {text: 'eight'},
+            {text: 'nine'}
+          ]
+          },
+        ]
+        // currentNumber: 0,
       }
     }
   })
-
 </script>
-
 <style>
   .wrapper {
     float: left;
