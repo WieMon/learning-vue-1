@@ -8,16 +8,29 @@
 </head>
 <body>
   <div id="app">
-    <div class='wrapper' v-for='(park, index) in parks'>
-      <img class='img' v-bind:src='park.src' v-bind:alt='park.alt'></img>
+    <div class='wrapper1' v-for='(park, index) in parks'>
+      <img class='img' v-bind:src='park.src' v-bind:alt='park.alt' />
       <ol>
         <li v-for='(item, index) in park.items'>{{item.text}}</li>
       </ol>
     </div>
   </div>
+
+  <div class='wrapper2' id="app2">
+    <div v-for='number in [currentNumber]' :key='number'>
+        <img
+        class='img'
+        :src='currentImage' />
+    </div>
+    <p>
+      <a @click='prevImage' href='#'>Previous</a>
+      <button v-on:mouseover='stopSlider' v-on:mouseout='startSlider' >Pause</button>
+      <a @click='nextImage' href='#'>Next</a>
+    </p>
+  </div>
 </body>
 <script>
-   new Vue({
+  new Vue({
     el:"#app",
     data() {
       return {
@@ -50,19 +63,61 @@
           ]
           },
         ]
-        // currentNumber: 0,
+      }
+    }
+  })
+
+  new Vue({
+    el:"#app2",
+    data: {
+      images: [
+          'https://images.pexels.com/photos/1009831/pexels-photo-1009831.jpeg?cs=srgb&dl=pexels-photomix-company-1009831.jpg&fm=jpg',
+          'https://images.pexels.com/photos/1300510/pexels-photo-1300510.jpeg?cs=srgb&dl=pexels-nathan-cowley-1300510.jpg&fm=jpg',
+          'https://images.pexels.com/photos/2170231/pexels-photo-2170231.jpeg?cs=srgb&dl=pexels-emre-kuzu-2170231.jpg&fm=jpg',
+          'https://images.pexels.com/photos/773594/pexels-photo-773594.jpeg?cs=srgb&dl=pexels-radu-andrei-razvan-773594.jpg&fm=jpg'
+        ],
+        currentNumber: 0,
+        timer: null
+    },
+    mounted: function() {
+      this.startSlider();
+
+    },
+    methods: {
+      startSlider: function() {
+        this.timer = setInterval(this.nextImage, 2000);
+      },
+      stopSlider: function() {
+        clearTimeout(this.timer);
+        this.timer = null;
+      },
+      nextImage: function() {
+        this.currentNumber +=1
+      },
+      prevImage: function() {
+        this.currentNumber -=1
+      }
+    },
+    computed: {
+      currentImage: function() {
+        return this.images[Math.abs(this.currentNumber) % this.images.length];
       }
     }
   })
 </script>
 <style>
-  .wrapper {
-    float: left;
-    width: 33%;
-  }
+.wrapper1 {
+  float: left;
+  width: 33%;
+}
 
-  .img {
-     height: 500px;
-  }
+.wrapper2 {
+  margin: 0 auto;
+  width: 50%;
+}
+
+.img {
+  height: 500px;
+}
 </style>
 </html>
