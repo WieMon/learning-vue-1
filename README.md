@@ -1,9 +1,9 @@
 # learning-vue-1
 
-##Description
+## Description
 My training repositorium for Vue.js.
 
-##Table of contents:
+## Table of contents:
 - loop of images
 - image slider
 
