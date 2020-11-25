@@ -16,18 +16,21 @@
     </div>
   </div>
 
-  <div class='wrapper2' id="app2">
-    <div v-for='number in [currentNumber]' :key='number'>
-        <img
-        class='img'
-        :src='currentImage' />
-    </div>
+  <div class='wrapper2' id='app2'>
     <p>
-      <a @click='prevImage' href='#'>Previous</a>
+      <a @click="prevImage" href='#'>Previous</a>
+      <button @click='stopSlider'>Stop</button>
+      <button @click='startSlider' >Start</button>
       <button v-on:mouseover='stopSlider' v-on:mouseout='startSlider' >Pause</button>
-      <a @click='nextImage' href='#'>Next</a>
+      <a @click="nextImage" href='#'>Next</a>
     </p>
-  </div>
+    <transition-group name='fade' tag='div'>
+      <div v-for="number in [currentNumber]" :key='number'>
+         <img class='img' :src='currentImage' v-on:mouseover='stopSlider' v-on:mouseout='startSlider' />
+    </div>
+  </transition-group>
+</div>
+
 </body>
 <script>
   new Vue({
@@ -68,42 +71,45 @@
   })
 
   new Vue({
-    el:"#app2",
+    el: '#app2',
     data: {
-      images: [
-          'https://images.pexels.com/photos/1009831/pexels-photo-1009831.jpeg?cs=srgb&dl=pexels-photomix-company-1009831.jpg&fm=jpg',
-          'https://images.pexels.com/photos/1300510/pexels-photo-1300510.jpeg?cs=srgb&dl=pexels-nathan-cowley-1300510.jpg&fm=jpg',
-          'https://images.pexels.com/photos/2170231/pexels-photo-2170231.jpeg?cs=srgb&dl=pexels-emre-kuzu-2170231.jpg&fm=jpg',
-          'https://images.pexels.com/photos/773594/pexels-photo-773594.jpeg?cs=srgb&dl=pexels-radu-andrei-razvan-773594.jpg&fm=jpg'
-        ],
+        images: [
+          'images/spring.png',
+          'images/summer.png',
+          'images/autumn.png',
+          'images/winter.png'],
         currentNumber: 0,
         timer: null
     },
-    mounted: function() {
-      this.startSlider();
 
+    mounted: function () {
+        this.startSlider();
     },
+
     methods: {
-      startSlider: function() {
-        this.timer = setInterval(this.nextImage, 2000);
-      },
-      stopSlider: function() {
-        clearTimeout(this.timer);
-        this.timer = null;
-      },
-      nextImage: function() {
-        this.currentNumber +=1
-      },
-      prevImage: function() {
-        this.currentNumber -=1
-      }
+        startSlider: function() {
+            this.timer = setInterval(this.nextImage, 2000);
+        },
+
+        stopSlider: function() {
+            clearTimeout(this.timer);
+            this.timer = null;
+        },
+
+        nextImage: function() {
+            this.currentNumber += 1
+        },
+        prevImage: function() {
+            this.currentNumber -= 1
+        }
     },
+
     computed: {
-      currentImage: function() {
-        return this.images[Math.abs(this.currentNumber) % this.images.length];
+    	currentImage: function() {
+      	return this.images[Math.abs(this.currentNumber) % this.images.length];
       }
     }
-  })
+});
 </script>
 <style>
 .wrapper1 {
@@ -119,5 +125,17 @@
 .img {
   height: 500px;
 }
-</style>
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.6s ease;
+  overflow: hidden;
+  visibility: visible;
+  opacity: 1;
+  position: absolute;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  visibility: hidden;
+}</style>
 </html>
