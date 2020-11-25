@@ -21,12 +21,13 @@
       <a @click="prevImage" href='#'>Previous</a>
       <button @click='stopSlider'>Stop</button>
       <button @click='startSlider' >Start</button>
-      <button v-on:mouseover='stopSlider' v-on:mouseout='startSlider' >Pause</button>
+      <button class='btn-hoover' v-on:mouseover='stopSlider' v-on:mouseout='startSlider' >Pause</button>
       <a @click="nextImage" href='#'>Next</a>
     </p>
     <transition-group name='fade' tag='div'>
       <div v-for="number in [currentNumber]" :key='number'>
          <img class='img' :src='currentImage' v-on:mouseover='stopSlider' v-on:mouseout='startSlider' />
+         <p :src='currentDescription'>{{currentDescription}}</p>
     </div>
   </transition-group>
 </div>
@@ -74,10 +75,24 @@
     el: '#app2',
     data: {
         images: [
-          'images/spring.png',
-          'images/summer.png',
-          'images/autumn.png',
-          'images/winter.png'],
+          {
+            image: 'images/spring.png',
+            description: 'Spring'
+          },
+          {
+            image: 'images/summer.png',
+            description: 'Summer'
+          },
+          {
+            image: 'images/autumn.png',
+            description: 'Autumn'
+          },
+          {
+            image: 'images/winter.png',
+            description: 'Winter'
+          },
+
+          ],
         currentNumber: 0,
         timer: null
     },
@@ -106,7 +121,10 @@
 
     computed: {
     	currentImage: function() {
-      	return this.images[Math.abs(this.currentNumber) % this.images.length];
+      	return this.images[Math.abs(this.currentNumber) % this.images.length].image;
+      },
+      currentDescription: function() {
+        return this.images[Math.abs(this.currentNumber) % this.images.length].description;
       }
     }
 });
@@ -137,5 +155,10 @@
 .fade-enter, .fade-leave-to {
   opacity: 0;
   visibility: hidden;
-}</style>
+}
+
+.btn-hoover:hover {
+  box-shadow: 2px 2px 1px red;
+}
+</style>
 </html>
